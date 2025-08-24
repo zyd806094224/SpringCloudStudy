@@ -1,0 +1,15 @@
+server:
+  port: 8000
+
+spring:
+  application:
+    name: service-order
+  cloud:
+    nacos:
+      server-addr: 127.0.0.1:8848
+      username: nacos  # 服务器配置的用户名
+      password: nacos  # 服务器配置的密码
+      config:
+        namespace: ${spring.profiles.active:public}
+        import-check:
+          enabled: false
