@@ -1,0 +1,21 @@
+spring:
+  cloud:
+    nacos:
+      server-addr: 127.0.0.1:8848  # Nacos 地址
+      username: nacos  # 服务器配置的用户名
+      password: nacos  # 服务器配置的密码
+      discovery:
+        namespace: 4c46f065-676d-4ae9-b3ca-8cab6aafb11b
+      config:
+        group: DEFAULT_GROUP
+        file-extension: yaml
+        namespace: 4c46f065-676d-4ae9-b3ca-8cab6aafb11b
+        import-check:
+          # 禁用 nacos 配置中心导入检查
+          enabled: false
+  config:
+    import:
+      - nacos:${spring.application.name}-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
+      - nacos:common-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
+
+

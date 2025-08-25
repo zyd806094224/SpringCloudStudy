@@ -3,15 +3,7 @@ server:
 spring:
   application:
     name: service-product
-  cloud:
-    nacos:
-      # 配置 Nacos 地址
-      server-addr: 127.0.0.1:8848
-      username: nacos  # 服务器配置的用户名
-      password: nacos  # 服务器配置的密码
-      config:
-        import-check:
-          # 禁用 nacos 配置中心导入检查
-          enabled: false
+  profiles:
+    active: dev
 
 
