@@ -17,6 +17,6 @@ spring:
             read-timeout: 5000
 
 # 开启熔断
-#feign:
-#  sentinel:
-#    enabled: true
+feign:
+  sentinel:
+    enabled: true

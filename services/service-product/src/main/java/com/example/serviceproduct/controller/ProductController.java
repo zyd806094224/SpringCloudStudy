@@ -36,7 +36,6 @@ public class ProductController {
         product.setProductName(productEntity.getProductName());
         product.setNum(productEntity.getStock());
         product.setPrice(productEntity.getPrice());
-
         /*
          * 模拟慢调用
          */
@@ -45,7 +44,7 @@ public class ProductController {
         /*
          * 模拟异常
          */
-        // int i = 1 / 0;
+        //int i = 1 / 0;
 
         return product;
     }

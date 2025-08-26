@@ -22,7 +22,6 @@ public class OrderServiceImpl implements OrderService {
     private ProductFeignClient productFeignClient;
 
     @Override
-    @SentinelResource(value = "createOrder", blockHandler = "createOrderFallback")
     public Order createOrder(Long productId, Long userId) {
         Order order = new Order();
         order.setId(1L);
@@ -38,17 +37,4 @@ public class OrderServiceImpl implements OrderService {
         }
         return order;
     }
-    /**
-     * 指定兜底回调
-     */
-    public Order createOrderFallback(Long productId, Long userId, BlockException e) {
-        Order order = new Order();
-        order.setId(0L);
-        order.setTotalAmount(new BigDecimal("0"));
-        order.setUserId(userId);
-        order.setNickname("未知用户");
-        order.setAddress("异常信息: " + e.getClass());
-        return order;
-    }
-
 }
