@@ -1,8 +1,8 @@
 package com.example.serviceproduct.service;
 
+import com.baomidou.mybatisplus.extension.service.IService;
+import com.example.serviceproduct.dao.ProductEntity;
 
-import com.example.model.product.Product;
+public interface ProductService extends IService<ProductEntity> {
 
-public interface ProductService {
-    Product getProductById(Long id);
 }
