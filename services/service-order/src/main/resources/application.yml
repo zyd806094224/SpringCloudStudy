@@ -6,3 +6,4 @@ spring:
     name: service-order
   profiles:
     active: dev
+    include: feign
