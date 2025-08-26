@@ -14,7 +14,7 @@ spring:
             # 连接超时，3000 毫秒
             connect-timeout: 3000
             # 读取超时，5000 毫秒
-            read-timeout: 5000
+            read-timeout: 60000
 
 # 开启熔断
 feign:
