@@ -20,3 +20,8 @@ spring:
 feign:
   sentinel:
     enabled: true
+
+logging:
+  level:
+    # 你的 Feign 接口全类名，设置为 DEBUG 级别
+    com.example.serviceorder.feign.ProductFeignClient: DEBUG

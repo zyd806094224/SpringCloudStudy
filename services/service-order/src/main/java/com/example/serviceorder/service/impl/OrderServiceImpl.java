@@ -1,8 +1,6 @@
 package com.example.serviceorder.service.impl;
 
 
-import com.alibaba.csp.sentinel.annotation.SentinelResource;
-import com.alibaba.csp.sentinel.slots.block.BlockException;
 import com.example.model.order.Order;
 import com.example.model.product.Product;
 import com.example.serviceorder.feign.ProductFeignClient;
