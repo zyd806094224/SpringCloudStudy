@@ -89,12 +89,6 @@
             <version>3.27.2</version>
         </dependency>
 
-        <!-- Required by Redisson for YAML config processing -->
-        <dependency>
-            <groupId>com.fasterxml.jackson.dataformat</groupId>
-            <artifactId>jackson-dataformat-yaml</artifactId>
-        </dependency>
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>

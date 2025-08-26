@@ -26,6 +26,7 @@ public class OrderServiceImpl implements OrderService {
         //远程调用获取商品信息
         Product product = productFeignClient.getProductById(productId);
         if(product != null){
+            log.info("剩余商品数量===》" + product.getNum());
             BigDecimal totalAmount = product.getPrice().multiply(new BigDecimal(product.getNum()));
             order.setTotalAmount(totalAmount);
             order.setUserId(userId);
