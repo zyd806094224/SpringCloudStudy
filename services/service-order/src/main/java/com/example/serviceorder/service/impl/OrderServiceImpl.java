@@ -1,9 +1,12 @@
 package com.example.serviceorder.service.impl;
 
 
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.model.order.Order;
 import com.example.model.product.Product;
+import com.example.serviceorder.dao.OrderEntity;
 import com.example.serviceorder.feign.ProductFeignClient;
+import com.example.serviceorder.mapper.OrderMapper;
 import com.example.serviceorder.service.OrderService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +17,7 @@ import java.util.List;
 
 @Slf4j
 @Service
-public class OrderServiceImpl implements OrderService {
+public class OrderServiceImpl extends ServiceImpl<OrderMapper, OrderEntity> implements OrderService {
 
     @Autowired
     private ProductFeignClient productFeignClient;
