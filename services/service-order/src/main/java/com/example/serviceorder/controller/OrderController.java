@@ -4,6 +4,7 @@ import com.example.model.order.Order;
 import com.example.serviceorder.dao.OrderEntity;
 import com.example.serviceorder.service.OrderService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.rocketmq.spring.core.RocketMQTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +21,9 @@ public class OrderController {
     private String testUrl;
 
     @Autowired
+    private RocketMQTemplate rocketMQTemplate;
+
+    @Autowired
     private OrderService orderService;
     @GetMapping("/create")
     public Order createOrder(@RequestParam("userId") Long userId,
@@ -30,5 +34,11 @@ public class OrderController {
     @GetMapping("/getOrderList")
     public List<OrderEntity> getOrderList() {
         return orderService.list();
+    }
+
+    @GetMapping("/test-mq")
+    public String testMq() {
+        rocketMQTemplate.convertAndSend("order-topic", "Hello, RocketMQ!");
+        return "Message sent!";
     }
 }
