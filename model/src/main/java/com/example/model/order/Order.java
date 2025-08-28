@@ -12,6 +12,7 @@ import java.util.List;
 @Setter
 public class Order {
     private Long id;
+    private String orderNo;
     private BigDecimal totalAmount;
     private Long userId;
     private String nickname;
