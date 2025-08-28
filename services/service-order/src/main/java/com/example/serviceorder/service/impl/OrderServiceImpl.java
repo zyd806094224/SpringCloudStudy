@@ -28,6 +28,34 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OrderEntity> impl
     @Transactional
     @Override
     public Order createOrder(Long productId, Long userId) {
+        OrderEntity orderEntity = generateOrderEntity(productId,userId);
+        //创建订单
+        save(orderEntity);
+        Order order = new Order();
+        order.setId(orderEntity.getId());
+        order.setOrderNo(orderEntity.getOrderNo());
+        order.setUserId(userId);
+        //远程调用获取商品信息
+        Product product = productFeignClient.getProductById(productId);
+        if(product != null){
+            log.info("剩余商品数量===》" + product.getNum());
+            BigDecimal totalAmount = product.getPrice().multiply(new BigDecimal(product.getNum()));
+            order.setTotalAmount(totalAmount);
+            order.setUserId(userId);
+            order.setNickname("yiluxiangbei");
+            order.setAddress("北京");
+            order.setProductList(List.of(product));
+        }
+        return order;
+    }
+
+    /**
+     * 生成订单
+     * @param productId
+     * @param userId
+     * @return
+     */
+    private OrderEntity generateOrderEntity(Long productId, Long userId) {
         OrderEntity orderEntity = new OrderEntity();
         orderEntity.setUserId(userId);
         orderEntity.setProductId(productId);
@@ -41,23 +69,6 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OrderEntity> impl
         orderEntity.setCreateTime(LocalDateTime.now());
         orderEntity.setPayTime(LocalDateTime.now());
         orderEntity.setUpdateTime(LocalDateTime.now());
-        //创建订单
-        save(orderEntity);
-        Order order = new Order();
-        order.setId(orderEntity.getId());
-        order.setOrderNo(orderEntity.getOrderNo());
-        order.setUserId(userId);
-        //远程调用获取商品信息
-        /*Product product = productFeignClient.getProductById(productId);
-        if(product != null){
-            log.info("剩余商品数量===》" + product.getNum());
-            BigDecimal totalAmount = product.getPrice().multiply(new BigDecimal(product.getNum()));
-            order.setTotalAmount(totalAmount);
-            order.setUserId(userId);
-            order.setNickname("yiluxiangbei");
-            order.setAddress("北京");
-            order.setProductList(List.of(product));
-        }*/
-        return order;
+        return orderEntity;
     }
 }
