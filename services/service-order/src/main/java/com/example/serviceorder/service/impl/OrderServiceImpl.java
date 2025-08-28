@@ -8,15 +8,14 @@ import com.example.serviceorder.dao.OrderEntity;
 import com.example.serviceorder.feign.ProductFeignClient;
 import com.example.serviceorder.mapper.OrderMapper;
 import com.example.serviceorder.service.OrderService;
+import com.example.serviceorder.utils.OrderUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.UUID;
 
 @Slf4j
 @Service
@@ -28,7 +27,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OrderEntity> impl
     @Transactional
     @Override
     public Order createOrder(Long productId, Long userId) {
-        OrderEntity orderEntity = generateOrderEntity(productId,userId);
+        OrderEntity orderEntity = OrderUtils.generateOrderEntity(productId,"Apple iPhone 15 Pro",userId);
         //创建订单
         save(orderEntity);
         Order order = new Order();
@@ -50,25 +49,14 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OrderEntity> impl
     }
 
     /**
-     * 生成订单
+     * rocketmq 创建订单  最终一致性
      * @param productId
      * @param userId
      * @return
      */
-    private OrderEntity generateOrderEntity(Long productId, Long userId) {
-        OrderEntity orderEntity = new OrderEntity();
-        orderEntity.setUserId(userId);
-        orderEntity.setProductId(productId);
-        orderEntity.setOrderNo(UUID.randomUUID().toString());
-        orderEntity.setProductName("Apple iPhone 15 Pro");
-        orderEntity.setProductPrice(new BigDecimal("8999.00"));
-        orderEntity.setOrderAmount(new BigDecimal("8999.00"));
-        orderEntity.setPayAmount(new BigDecimal("8999.00"));
-        orderEntity.setPayType(1);
-        orderEntity.setOrderStatus(1);
-        orderEntity.setCreateTime(LocalDateTime.now());
-        orderEntity.setPayTime(LocalDateTime.now());
-        orderEntity.setUpdateTime(LocalDateTime.now());
-        return orderEntity;
+    @Override
+    public Order createOrderV2(Long productId, Long userId) {
+
+        return null;
     }
 }
