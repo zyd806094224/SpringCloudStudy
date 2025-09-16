@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.serviceorder.mapper.LocalMessageMapper">
+    <select id="selectPendingMessages" resultType="com.example.serviceorder.dao.LocalMessage">
+        select * from local_message where status = 0
+    </select>
+    <update id="updateStatus">
+        update local_message set status = #{status} where tx_id = #{txId}
+    </update>
+    <insert id="insert" parameterType="com.example.serviceorder.dao.LocalMessage" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO local_message (tx_id, message, status, create_time, update_time)
+        VALUES (#{txId}, #{message}, #{status}, #{createTime}, #{updateTime})
+    </insert>
+</mapper>
+

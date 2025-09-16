@@ -31,6 +31,12 @@ public class OrderController {
         log.info("创建订单" + testUrl);
         return orderService.createOrder(productId, userId);
     }
+
+    @GetMapping("/createV2")
+    public Order createOrderV2() {
+        return orderService.createOrderV2();
+    }
+
     @GetMapping("/getOrderList")
     public List<OrderEntity> getOrderList() {
         return orderService.list();

@@ -4,9 +4,12 @@ package com.example.serviceorder.service.impl;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.model.order.Order;
 import com.example.model.product.Product;
+import com.example.serviceorder.dao.LocalMessage;
 import com.example.serviceorder.dao.OrderEntity;
 import com.example.serviceorder.feign.ProductFeignClient;
+import com.example.serviceorder.mapper.LocalMessageMapper;
 import com.example.serviceorder.mapper.OrderMapper;
+import com.example.serviceorder.service.MqService;
 import com.example.serviceorder.service.OrderService;
 import com.example.serviceorder.utils.OrderUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -15,7 +18,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 @Slf4j
 @Service
@@ -23,6 +28,12 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OrderEntity> impl
 
     @Autowired
     private ProductFeignClient productFeignClient;
+
+    @Autowired
+    private LocalMessageMapper localMessageMapper;
+
+    @Autowired
+    private MqService mqService;
 
     @Transactional
     @Override
@@ -54,9 +65,36 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OrderEntity> impl
      * @param userId
      * @return
      */
+    @Transactional
     @Override
-    public Order createOrderV2(Long productId, Long userId) {
+    public Order createOrderV2() {
 
-        return null;
+        Long productId = 5L;
+        Long userId = 101L;
+
+        OrderEntity orderEntity = OrderUtils.generateOrderEntity(productId,"苏泊尔不粘锅套装",userId);
+        //创建订单
+        save(orderEntity);
+        //  生成事务ID
+        String txId = UUID.randomUUID().toString();
+
+        // 构建消息内容
+        String message = String.format("{\"txId\":\"%s\",\"productId\":%s}",
+                txId, productId);
+        LocalMessage localMessage = new LocalMessage();
+        localMessage.setTxId(txId);
+        localMessage.setMessage(message);
+        localMessage.setStatus(0); // 待发送
+        localMessage.setCreateTime(new Date());
+        localMessage.setUpdateTime(new Date());
+        localMessageMapper.insert(localMessage);
+        // 发送消息到RocketMQ
+        mqService.sendTransferMessage(txId, message);
+
+        Order order = new Order();
+        order.setId(orderEntity.getId());
+        order.setOrderNo(orderEntity.getOrderNo());
+        order.setUserId(userId);
+        return order;
     }
 }

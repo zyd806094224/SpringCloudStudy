@@ -8,5 +8,5 @@ import com.example.serviceorder.dao.OrderEntity;
 public interface OrderService extends IService<OrderEntity> {
     Order createOrder(Long productId, Long userId);
 
-    Order createOrderV2(Long productId, Long userId);
+    Order createOrderV2();
 }
