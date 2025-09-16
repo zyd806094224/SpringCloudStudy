@@ -3,6 +3,7 @@ package com.example.serviceorder.service.impl;
 import com.example.serviceorder.dao.LocalMessage;
 import com.example.serviceorder.mapper.LocalMessageMapper;
 import com.example.serviceorder.service.MqService;
+import lombok.extern.log4j.Log4j2;
 import org.apache.rocketmq.spring.core.RocketMQTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@Log4j2
 @Service
 public class MqServiceImpl implements MqService {
 
@@ -32,7 +34,7 @@ public class MqServiceImpl implements MqService {
             localMessageMapper.updateStatus(txId, 1);
         } catch (Exception e) {
             // 发送失败不抛异常，由定时任务重试
-            System.err.println("消息发送失败，将由定时任务重试: " + e.getMessage());
+            log.info("消息发送失败，将由定时任务重试: " + e.getMessage());
         }
     }
 
@@ -48,9 +50,9 @@ public class MqServiceImpl implements MqService {
 
                 // 发送成功更新状态
                 localMessageMapper.updateStatus(message.getTxId(), 1);
-                System.out.println("消息重发成功: " + message.getTxId());
+                log.info("消息重发成功: " + message.getTxId());
             } catch (Exception e) {
-                System.err.println("消息重发失败: " + message.getTxId() + ", 原因: " + e.getMessage());
+                log.info("消息重发失败: " + message.getTxId()+ ", 原因: " + e.getMessage());
             }
         }
     }
