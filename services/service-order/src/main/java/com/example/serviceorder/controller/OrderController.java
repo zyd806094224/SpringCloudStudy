@@ -37,6 +37,11 @@ public class OrderController {
         return orderService.createOrderV2();
     }
 
+    @GetMapping("/createV3")
+    public boolean createOrderV3() {
+        return orderService.createOrderV3();
+    }
+
     @GetMapping("/getOrderList")
     public List<OrderEntity> getOrderList() {
         return orderService.list();

@@ -13,7 +13,10 @@ import com.example.serviceorder.service.MqService;
 import com.example.serviceorder.service.OrderService;
 import com.example.serviceorder.utils.OrderUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.rocketmq.spring.core.RocketMQTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.Message;
+import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,6 +37,9 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OrderEntity> impl
 
     @Autowired
     private MqService mqService;
+
+    @Autowired
+    private RocketMQTemplate rocketMQTemplate;
 
     @Transactional
     @Override
@@ -61,8 +67,6 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OrderEntity> impl
 
     /**
      * rocketmq 创建订单  最终一致性
-     * @param productId
-     * @param userId
      * @return
      */
     @Transactional
@@ -96,5 +100,26 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, OrderEntity> impl
         order.setOrderNo(orderEntity.getOrderNo());
         order.setUserId(userId);
         return order;
+    }
+
+    /**
+     * 先想mq发送消息
+     * @return
+     */
+    @Override
+    public boolean createOrderV3() {
+        Long productId = 5L;
+        //  生成事务ID
+        String txId = UUID.randomUUID().toString();
+        // 构建消息内容
+        String msg = String.format("{\"txId\":\"%s\",\"productId\":%s}",
+                txId, productId);
+        //生成message类型
+        Message<String> message = MessageBuilder.withPayload(msg).build();
+
+        //发送事务消息（核心：半消息在此产生）
+        //    参数：topic、消息内容、额外参数（可传递到本地事务方法）
+        rocketMQTemplate.sendMessageInTransaction("transfer_topic", message, null);
+        return true;
     }
 }

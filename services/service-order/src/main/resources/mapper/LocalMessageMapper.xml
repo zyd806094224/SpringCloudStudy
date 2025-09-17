@@ -5,6 +5,9 @@
     <select id="selectPendingMessages" resultType="com.example.serviceorder.dao.LocalMessage">
         select * from local_message where status = 0
     </select>
+    <select id="selectById" resultType="com.example.serviceorder.dao.LocalMessage">
+        select * from local_message where tx_id = #{txId}
+    </select>
     <update id="updateStatus">
         update local_message set status = #{status} where tx_id = #{txId}
     </update>

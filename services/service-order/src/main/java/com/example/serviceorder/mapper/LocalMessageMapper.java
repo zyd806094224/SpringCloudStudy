@@ -16,4 +16,7 @@ public interface LocalMessageMapper {
 
     // 查询待发送的消息
     List<LocalMessage> selectPendingMessages();
+
+    //查找事务消息
+    LocalMessage selectById(@Param("txId")String txId);
 }

@@ -9,4 +9,5 @@ public interface OrderService extends IService<OrderEntity> {
     Order createOrder(Long productId, Long userId);
 
     Order createOrderV2();
+    boolean createOrderV3();
 }

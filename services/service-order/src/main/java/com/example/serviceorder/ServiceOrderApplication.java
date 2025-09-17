@@ -9,7 +9,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableFeignClients
 @EnableDiscoveryClient
 @SpringBootApplication
-@EnableScheduling // 启用定时任务
+//@EnableScheduling // 启用定时任务
 public class ServiceOrderApplication {
 
     public static void main(String[] args) {
