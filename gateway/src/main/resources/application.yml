@@ -12,6 +12,14 @@ spring:
       discovery:
         # 必须和业务服务在同一个 namespace，否则网关发现不了它们
         namespace: 4c46f065-676d-4ae9-b3ca-8cab6aafb11b
+    # ============ Sentinel 配置 ============
+    sentinel:
+      transport:
+        dashboard: 127.0.0.1:8858   # Sentinel Dashboard 地址
+        port: 8719                  # 客户端与 Dashboard 的通信端口（默认 8719，被占用会自动 +1）
+      eager: true                   # 立即初始化，不等首次请求（默认懒加载）
+      filter:
+        enabled: false              # 关闭默认的 SentinelWebInterceptor，避免和 gateway 适配器重复拦截
     gateway:
       # ============ 路由规则 ============
       # 一个 Route = id(标识) + uri(转发到哪) + predicates(哪些请求匹配) + filters(转发前后处理)

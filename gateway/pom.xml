@@ -41,6 +41,21 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
         </dependency>
+
+        <!-- Sentinel：网关层限流/熔断。 -->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-sentinel</artifactId>
+        </dependency>
+
+        <!-- Sentinel 的 Spring Cloud Gateway 专用适配器。
+             注意：SCA 2023.x 的 sentinel starter 默认不再传递这个适配器（只带 webflux/webmvc 通用适配器），
+             需手动引入，否则网关路由不会成为 Sentinel 资源、Dashboard 实时监控会是空的。 -->
+        <dependency>
+            <groupId>com.alibaba.csp</groupId>
+            <artifactId>sentinel-spring-cloud-gateway-adapter</artifactId>
+            <version>1.8.8</version>
+        </dependency>
     </dependencies>
 
 </project>
