@@ -12,6 +12,14 @@ spring:
       discovery:
         # 必须和业务服务在同一个 namespace，否则网关发现不了它们
         namespace: 4c46f065-676d-4ae9-b3ca-8cab6aafb11b
+    # ============ 负载均衡策略配置 ============
+    # 默认策略是轮询（RoundRobin）。切换策略见 gateway/.../config/LoadBalancerConfig.java，
+    # Spring Cloud LoadBalancer 4.x 通过定义 Bean 覆盖默认策略，不再用 yml 配置类名。
+    loadbalancer:
+      cache:
+        enabled: false   # 关闭实例列表缓存，调试时能立即看到新实例上下线（生产建议开启）
+      health-check:
+        initial-delay: 0s
     # ============ Sentinel 配置 ============
     sentinel:
       transport:
