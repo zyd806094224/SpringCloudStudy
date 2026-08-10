@@ -17,4 +17,4 @@ CREATE TABLE `dead_letter_message` (
   PRIMARY KEY (`id`),
   KEY `idx_tx_id` (`tx_id`),
   KEY `idx_status` (`status`)
-) ENGINE=InnoDB DEFAULT CHARSET=utfmb4 COMMENT='死信消息表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='死信消息表';

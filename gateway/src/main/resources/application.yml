@@ -1,0 +1,52 @@
+server:
+  port: 10000  # 网关端口，整个集群对外的唯一入口（8080 被 Docker 占用，改用 10000）
+
+spring:
+  application:
+    name: gateway
+  cloud:
+    nacos:
+      server-addr: 127.0.0.1:8848   # 与 service-order / service-product 连同一个 Nacos
+      username: nacos
+      password: nacos
+      discovery:
+        # 必须和业务服务在同一个 namespace，否则网关发现不了它们
+        namespace: 4c46f065-676d-4ae9-b3ca-8cab6aafb11b
+    gateway:
+      # ============ 路由规则 ============
+      # 一个 Route = id(标识) + uri(转发到哪) + predicates(哪些请求匹配) + filters(转发前后处理)
+      routes:
+        # 订单服务：把 /order/** 开头的请求转发到 service-order
+        - id: service-order
+          uri: lb://service-order        # lb:// 表示走负载均衡，后面跟 Nacos 中的服务名
+          predicates:
+            - Path=/order/**
+          filters:
+            # /order/create -> 后端的 /create
+            # 第一个 1 表示去掉前缀层数（去掉 /order）
+            - StripPrefix=1
+
+        # 商品服务：把 /product/** 开头的请求转发到 service-product
+        - id: service-product
+          uri: lb://service-product
+          predicates:
+            - Path=/product/**
+          filters:
+            - StripPrefix=1
+      # ============ 跨域配置 ============
+      # 网关统一处理跨域，下游服务无需再各配一份
+      default-filters:
+        - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials RETAIN_UNIQUE
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOriginPatterns: "*"
+            allowedMethods: "*"
+            allowedHeaders: "*"
+            allowCredentials: true
+            maxAge: 3600
+
+logging:
+  level:
+    # 把网关路由信息打印出来，方便调试时观察请求被转发到了哪个服务
+    org.springframework.cloud.gateway: info
