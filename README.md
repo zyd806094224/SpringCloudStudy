@@ -15,6 +15,8 @@
 
 - Spring Boot 3.x
 - Spring Cloud
+- Spring Cloud Gateway（API 网关）
+- Sentinel（网关限流）
 - MyBatis Plus
 - RocketMQ（消息队列）
 - Redisson（分布式锁）
@@ -121,3 +123,4 @@
 ## 相关文档
 
 - [RocketMQ 使用与商用方案](docs/RocketMQ使用与商用方案.md)：事务消息、消费幂等、死信队列、告警机制与生产最佳实践
+- [Sentinel 网关限流使用与商用方案](docs/Sentinel网关限流使用与商用方案.md)：网关接入 Sentinel、限流原理、规则配置、Dashboard 动态下发与商用最佳实践
