@@ -13,6 +13,24 @@ spring:
         import-check:
           # 禁用 nacos 配置中心导入检查
           enabled: false
+    # ============ Sentinel：@SentinelResource 接口级限流规则持久化 ============
+    sentinel:
+      transport:
+        dashboard: 127.0.0.1:8858
+        port: 8721                  # 客户端与 Dashboard 通信端口（8719/8720 已被 product/gateway 占用）
+      eager: true
+      datasource:
+        # 读取 flow 规则（@SentinelResource 资源的限流规则）
+        flow:
+          nacos:
+            server-addr: 127.0.0.1:8848
+            username: nacos
+            password: nacos
+            namespace: 4c46f065-676d-4ae9-b3ca-8cab6aafb11b
+            group-id: SENTINEL_GROUP
+            data-id: service-order-sentinel-flow.json
+            data-type: json
+            rule-type: flow         # flow 类型 SCA 自带 converter，无需手动注册
   config:
     import:
       - nacos:${spring.application.name}-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}

@@ -23,5 +23,14 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-loadbalancer</artifactId>
         </dependency>
+
+        <!-- Sentinel 规则持久化到 Nacos 的数据源依赖。
+             SCA 的 sentinel starter 不传递此依赖，需手动引入，否则启动报
+             ClassNotFoundException: NacosDataSource。 -->
+        <dependency>
+            <groupId>com.alibaba.csp</groupId>
+            <artifactId>sentinel-datasource-nacos</artifactId>
+            <version>1.8.8</version>
+        </dependency>
     </dependencies>
 </project>

@@ -56,6 +56,14 @@
             <artifactId>sentinel-spring-cloud-gateway-adapter</artifactId>
             <version>1.8.8</version>
         </dependency>
+
+        <!-- Sentinel 规则持久化到 Nacos 的数据源。
+             没有它，规则只存在客户端内存，gateway/Dashboard 重启后规则全丢。 -->
+        <dependency>
+            <groupId>com.alibaba.csp</groupId>
+            <artifactId>sentinel-datasource-nacos</artifactId>
+            <version>1.8.8</version>
+        </dependency>
     </dependencies>
 
 </project>

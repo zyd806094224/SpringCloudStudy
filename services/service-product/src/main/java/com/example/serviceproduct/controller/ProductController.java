@@ -32,6 +32,11 @@ public class ProductController {
         return productService.list();
     }
 
+    @GetMapping("/getProductList2")
+    public List<ProductEntity> getProductList2() {
+        return productService.list();
+    }
+
     @GetMapping("/product/{id}")
     @SneakyThrows
     public Product getProduct(@PathVariable("id") Long id,

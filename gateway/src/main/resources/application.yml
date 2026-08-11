@@ -28,6 +28,11 @@ spring:
       eager: true                   # 立即初始化，不等首次请求（默认懒加载）
       filter:
         enabled: false              # 关闭默认的 SentinelWebInterceptor，避免和 gateway 适配器重复拦截
+      # 规则持久化（从 Nacos 读取）不在这里配 datasource：
+      # SCA 对 rule-type=gw-flow 没有内置 JSON converter，自动装配会报
+      # "No bean named 'sentinel-json-gw-flow-converter'"。
+      # 这里改由 GatewayConfiguration#initNacosDataSource 手动注册 NacosDataSource，
+      # 既绕开 SCA 自动装配，又能在 WebFlux 环境下稳定监听 Nacos 配置变更。
     gateway:
       # ============ 路由规则 ============
       # 一个 Route = id(标识) + uri(转发到哪) + predicates(哪些请求匹配) + filters(转发前后处理)

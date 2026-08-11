@@ -123,4 +123,4 @@
 ## 相关文档
 
 - [RocketMQ 使用与商用方案](docs/RocketMQ使用与商用方案.md)：事务消息、消费幂等、死信队列、告警机制与生产最佳实践
-- [Sentinel 网关限流使用与商用方案](docs/Sentinel网关限流使用与商用方案.md)：网关接入 Sentinel、限流原理、规则配置、Dashboard 动态下发与商用最佳实践
+- [Sentinel 网关限流使用与商用方案](docs/Sentinel网关限流使用与商用方案.md)：四种限流方案选型对比、网关+服务二级限流架构、Nacos 规则持久化、踩坑记录与商用最佳实践
