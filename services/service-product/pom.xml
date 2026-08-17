@@ -22,6 +22,13 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
+
+        <!-- Lombok 此前依赖 model 传递引入，未显式声明时 IDE 解析传递依赖
+             偶发报“程序包 lombok 不存在”，此处显式声明（版本由根 pom 管理） -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
     </dependencies>
 
 </project>
